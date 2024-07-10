@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho&display=swap"
+      rel="stylesheet"
+    />
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <link rel="stylesheet" href="./src/css/output.css" />
+    <title>Index</title>
+  </head>
+  <body>
+    <header
+      class="justify-items-center bg-repeat flex justify-center"
+      style="background-image: url(&quot;src/asset/black.jpg&quot;)"
+    >
+      <img src="./src/asset/logo.png" alt="" />
+    </header>
+    <main
+      class="bg-contain bg-repeat pt-10 h-dvh"
+      style="background-image: url(&quot;src/asset/black.jpg&quot;)"
+    >
+      <!-- charactor selector -->
+      <section class="main__selector md:mx-8">
+        <ul class="grid w-full grid-row-4 gap-2 md:grid-cols-4">
+          <li>
+            <input
+              type="radio"
+              id="selector-small"
+              name="selector"
+              value="selector-small"
+              class="hidden peer"
+              required
+            />
+            <label
+              for="selector-small"
+              class="charactor__all inline-flex items-center justify-between w-full p-5 bg-tanjiro border-2 border-tanjiro-dark cursor-pointer peer-checked:border-green-900 peer-checked:text-green-900 hover:text-gray-600 hover:bg-tanjiro-light"
+            >
+            <div class="w-full text-2xl font-black md:text-center">全キャラクター</div>
+            </label>
+          </li>
+          <li>
+            <input
+              type="radio"
+              id="selector-small"
+              name="selector"
+              value="selector-small"
+              class="hidden peer"
+            />
+            <label
+              for="selector-small"
+              class="charactor__kisatsutai inline-flex items-center justify-between w-full p-5 bg-kisatsutai border-2 border-kisatsutai-dark cursor-pointer peer-checked:border-rose-900 peer-checked:text-rose-900 hover:text-gray-600 hover:bg-kisatsutai-light"
+            >
+              <div class="w-full text-2xl font-black md:text-center">鬼殺隊</div>
+            </label>
+          </li>
+          <li>
+            <input
+              type="radio"
+              id="selector-small"
+              name="selector"
+              value="selector-small"
+              class="hidden peer"
+            />
+            <label
+              for="selector-small"
+              class="charactor__hashira inline-flex items-center justify-between w-full p-5 bg-hashira border-2 border-hashira-dark cursor-pointer peer-checked:border-rose-900 peer-checked:text-rose-900 hover:text-gray-600 hover:bg-hashira-light"
+            >
+              <div class="w-full text-2xl font-black md:text-center">柱</div>
+            </label>
+          </li>
+          <li>
+            <input
+              type="radio"
+              id="selector-small"
+              name="selector"
+              value="selector-small"
+              class="hidden peer"
+            />
+            <label
+              for="selector-small"
+              class="charactor__oni inline-flex items-center justify-between w-full p-5 bg-oni border-2 border-oni-dark cursor-pointer peer-checked:border-rose-900 peer-checked:text-rose-900 hover:text-gray-600 hover:bg-oni-light"
+            >
+              <div class="w-full text-2xl font-black md:text-center">鬼</div>
+            </label>
+          </li>
+        </ul>
+      </section>
+      <!-- main image -->
+      <section class="main__gallery"></section>
+
+      <!-- image template -->
+      <template class="main__gallery_template">
+        <div
+          class="main__gallery-images mt-10 grid grid-cols-3 gap-4 text-center justify-items-center md:mx-8"
+        ></div>
+      </template>
+
+      <!-- charactor card -->
+      <template class="charactor-card_template">
+        <div class="charactor-card bg-tanjiro">
+          <img src="" alt="">
+          <div class="charactor-info md:flex md:justify-center">
+            <div class="charactor-card__category md:mr-4">
+              <p class="text-lg"></p>
+            </div>
+            <div class="charactor-card__name">
+              <p class="text-lg"></p>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <!-- loading -->
+      <template class="main__gallery_template_loading">
+        <div class="main__gallery-images mx-auto flex justify-center">
+          <img src="./src/asset/muzan.gif" alt="loading muzan">
+        </div>
+      </template>
+
+    </main>
+    <footer class="text-gray-600 body-font">
+      <div class="bg-gray-100">
+        <div
+          class="container mx-8 py-4 px-5 flex flex-wrap flex-col sm:flex-row"
+        >
+          <p class="text-gray-500 text-sm text-center sm:text-left">
+            © 2020 Yuuki Sakakibara
+          </p>
+          <span
+            class="inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start"
+          >
+            <a
+              href="https://github.com/sakakibara-yuuki"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                fill="currentColor"
+                class="bi bi-github"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+                />
+              </svg>
+            </a>
+          </span>
+        </div>
+      </div>
+    </footer>
+    <script src="./src/js/script.js" type="module"></script>
+  </body>
+</html>
