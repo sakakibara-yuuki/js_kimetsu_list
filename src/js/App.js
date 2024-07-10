@@ -7,11 +7,12 @@
 
 export class App {
 
-  #baseUrl = `https://ihatov08.github.io`;
+  #baseUrl = new URL(`https://ihatov08.github.io`);
 
   constructor() {
-    window.addEventListener("load", () => {
-      this.showCard("all");
+    window.addEventListener("load", async () => {
+      const charactorList = this.showCard("all");
+      this.showLoading();
     });
     const charactors = [
       ".charactor__all",
@@ -22,47 +23,56 @@ export class App {
     charactors.forEach((charactor) => {
       const charactorElement = document.querySelector(charactor);
       const charactorKind = charactor.split("__")[1];
-      charactorElement.addEventListener("click", () => {
+      charactorElement.addEventListener("click", async () => {
         const charactorList = this.showCard(charactorKind);
+        this.showLoading();
       });
     });
   }
 
+  changeGallery(element) {
+    const gallery = document.querySelector(".main__gallery");
+    const child = gallery.querySelector(".gallery__list");
+    if (child) {
+      gallery.replaceChild(element, child);
+    } else {
+      gallery.append(element);
+    }
+  }
+
+  showLoading() {
+    const template = document.querySelector(".main__gallery_template_loading");
+    const clone = template.content.cloneNode(true);
+    const loading = clone.querySelector("img");
+    this.changeGallery(loading);
+  }
+
   async showCard(charactorKind) {
-    const res = await fetch(this.#baseUrl + `/kimetsu_api/api` + `/${charactorKind}.json`)
+    await fetch(this.#baseUrl + `/kimetsu_api/api` + `/${charactorKind}.json`)
       .then((response) => response.json())
       .then((data) => {
         const template = document.querySelector(".main__gallery_template");
         const clone = template.content.cloneNode(true);
-        const charactorList = clone.querySelector(".charactor__list");
+        const charactorList = clone.querySelector(".gallery__list");
 
-        // すべて履行されるまで待つ
         data.forEach((charactor) => {
-          const charactorCard = this.createCharactorCard(charactor);
-          // const charactorCard = await this.createCharactorCard(charactor);
-          charactorList.append(charactorCard);
+          const charactorCard = this.createCharactorCard(charactor, charactorList);
+          // charactorList.append(charactorCard);
         });
-
-        const gallery = document.querySelector(".main__gallery");
-        const child = gallery.querySelector(".charactor__list");
-        if (child) {
-          gallery.replaceChild(clone, child);
-        } else {
-          gallery.append(clone);
-        }
+        this.changeGallery(clone);
+        return charactorList;
       })
       .catch((error) => console.error(error));
-
-    console.log(res);
-    console.log('hello');
   }
 
-  createCharactorCard(charactor) {
+  async createCharactorCard(charactor, charactorList) {
     const charactorCard = document.createElement("div");
-    const charactorImage = document.createElement("img");
-    charactorImage.src = this.#baseUrl + charactor.image;
+    const charactorImage = new Image();
+    const response = await fetch(this.#baseUrl + charactor.image);
+    const blob = await response.blob();
+    charactorImage.src = URL.createObjectURL(blob);
     charactorImage.alt = charactor.name;
-    charactorImage.decoding = "async";
+
     const charactorName = document.createElement("p");
     charactorName.textContent = charactor.name;
     const charactorCategory = document.createElement("p");
@@ -70,6 +80,7 @@ export class App {
     [charactorName, charactorImage, charactorCategory].forEach((element) => {
       charactorCard.append(element);
     });
+    charactorList.append(charactorCard);
     return charactorCard;
   }
 }
