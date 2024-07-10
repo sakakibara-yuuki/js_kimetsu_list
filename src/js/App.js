@@ -11,7 +11,7 @@ export class App {
 
   constructor() {
     window.addEventListener("load", async () => {
-      const charactorList = this.showCard("all");
+      this.showCard("all");
       this.showLoading();
     });
     const charactors = [
@@ -21,66 +21,76 @@ export class App {
       ".charactor__oni",
     ];
     charactors.forEach((charactor) => {
-      const charactorElement = document.querySelector(charactor);
+      const charactorButton = document.querySelector(charactor);
       const charactorKind = charactor.split("__")[1];
-      charactorElement.addEventListener("click", async () => {
-        const charactorList = this.showCard(charactorKind);
+      charactorButton.addEventListener("click", async () => {
+        const showCardRef = () => this.showCard(charactorKind);
+        setTimeout(showCardRef, 500);
         this.showLoading();
       });
     });
   }
 
-  changeGallery(element) {
-    const gallery = document.querySelector(".main__gallery");
-    const child = gallery.querySelector(".gallery__list");
-    if (child) {
-      gallery.replaceChild(element, child);
-    } else {
-      gallery.append(element);
-    }
-  }
-
   showLoading() {
-    const template = document.querySelector(".main__gallery_template_loading");
-    const clone = template.content.cloneNode(true);
-    const loading = clone.querySelector("img");
-    this.changeGallery(loading);
+    const loadingImages = this.createGallery(".main__gallery_template_loading");
+    this.changeGallery(loadingImages);
   }
 
   async showCard(charactorKind) {
     await fetch(this.#baseUrl + `/kimetsu_api/api` + `/${charactorKind}.json`)
       .then((response) => response.json())
       .then((data) => {
-        const template = document.querySelector(".main__gallery_template");
-        const clone = template.content.cloneNode(true);
-        const charactorList = clone.querySelector(".gallery__list");
+
+        const charactorImages = this.createGallery(".main__gallery_template");
 
         data.forEach((charactor) => {
-          const charactorCard = this.createCharactorCard(charactor, charactorList);
-          // charactorList.append(charactorCard);
+          this.createCharactorCard(charactor, charactorImages);
         });
-        this.changeGallery(clone);
-        return charactorList;
+
+        this.changeGallery(charactorImages);
       })
       .catch((error) => console.error(error));
   }
 
-  async createCharactorCard(charactor, charactorList) {
-    const charactorCard = document.createElement("div");
-    const charactorImage = new Image();
-    const response = await fetch(this.#baseUrl + charactor.image);
-    const blob = await response.blob();
-    charactorImage.src = URL.createObjectURL(blob);
-    charactorImage.alt = charactor.name;
+  createGallery(templateSelector) {
+    const template = document.querySelector(templateSelector);
+    const clone = template.content.cloneNode(true);
+    const galleryImages = clone.querySelector(".main__gallery-images");
+    return galleryImages;
+  }
 
-    const charactorName = document.createElement("p");
-    charactorName.textContent = charactor.name;
-    const charactorCategory = document.createElement("p");
-    charactorCategory.textContent = charactor.category;
-    [charactorName, charactorImage, charactorCategory].forEach((element) => {
-      charactorCard.append(element);
-    });
-    charactorList.append(charactorCard);
-    return charactorCard;
+  changeGallery(galleryImages) {
+    const gallery = document.querySelector(".main__gallery");
+    const oldGalleryImages = gallery.querySelector(".main__gallery-images");
+    if (oldGalleryImages) {
+      gallery.replaceChild(galleryImages, oldGalleryImages);
+    } else {
+      gallery.append(galleryImages);
+    }
+  }
+
+  async createCharactorCard(charactor, charactorImages) {
+
+    const template = document.querySelector(".charactor-card_template");
+    const clone = template.content.cloneNode(true);
+    const charactorCard = clone.querySelector(".charactor-card");
+
+    const response = await fetch(this.#baseUrl + charactor.image)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const charactorImage = charactorCard.querySelector("img");
+        charactorImage.src = URL.createObjectURL(blob);
+        charactorImage.alt = charactor.name;
+
+        const charactorName = charactorCard.querySelector(".charactor-card__name");
+        charactorName.querySelector("p").textContent = charactor.name;
+
+        const charactorCategory = charactorCard.querySelector(".charactor-card__category");
+        charactorCategory.querySelector("p").textContent = charactor.category;
+
+        charactorImages.append(charactorCard);
+
+      })
+      .catch((error) => console.error(error));
   }
 }

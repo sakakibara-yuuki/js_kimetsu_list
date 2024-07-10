@@ -100,13 +100,30 @@
       <!-- image template -->
       <template class="main__gallery_template">
         <div
-          class="gallery__list mt-10 grid grid-cols-3 gap-4 text-center justify-items-center md:mx-8"
+          class="main__gallery-images mt-10 grid grid-cols-3 gap-4 text-center justify-items-center md:mx-8"
         ></div>
+      </template>
+
+      <!-- charactor card -->
+      <template class="charactor-card_template">
+        <div class="charactor-card bg-tanjiro">
+          <img src="" alt="">
+          <div class="charactor-info md:flex md:justify-center">
+            <div class="charactor-card__category md:mr-4">
+              <p class="text-lg"></p>
+            </div>
+            <div class="charactor-card__name">
+              <p class="text-lg"></p>
+            </div>
+          </div>
+        </div>
       </template>
 
       <!-- loading -->
       <template class="main__gallery_template_loading">
-        <img class="gallery__list" src="./src/asset/muzan.gif" alt="loading muzan">
+        <div class="main__gallery-images mx-auto flex justify-center">
+          <img src="./src/asset/muzan.gif" alt="loading muzan">
+        </div>
       </template>
 
     </main>
